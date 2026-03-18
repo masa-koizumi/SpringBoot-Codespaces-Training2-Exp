@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>資産一覧</h2>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>名前</th>
+    <th>状態</th>
+</tr>
+
+<tr th:each="a : ${assets}">
+    <td th:text="${a.id}"></td>
+    <td th:text="${a.name}"></td>
+    <td th:text="${a.status}"></td>
+</tr>
+
+</table>
+
+<h3>新規登録</h3>
+
+<form action="/assets" method="post">
+    名前: <input type="text" name="name">
+    <button type="submit">登録</button>
+</form>
+
+</body>
+</html>
