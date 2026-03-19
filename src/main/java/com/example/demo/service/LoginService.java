@@ -7,13 +7,13 @@ import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 
 @Service
-public class LoanService {
+public class LoginService {
 
     private final AssetRepository assetRepo;
     private final UserRepository userRepo;
     private final LoanRepository loanRepo;
 
-    public LoanService(AssetRepository assetRepo,
+    public LoginService(AssetRepository assetRepo,
                        UserRepository userRepo,
                        LoanRepository loanRepo) {
         this.assetRepo = assetRepo;
