@@ -3,24 +3,22 @@
 <body>
 
 <h2>貸出管理</h2>
-
 <a th:href="@{/menu}">← メニューへ戻る</a>
 
 <h3>貸出一覧</h3>
-
 <table border="1">
 <tr>
     <th>LoanID</th>
     <th>資産名</th>
     <th>ユーザ</th>
-    <th>操作</th>
+    <th>貸出日</th> <th>期間(日)</th> <th>操作</th>
 </tr>
 
 <tr th:each="l : ${loans}">
     <td th:text="${l.id}"></td>
     <td th:text="${l.asset.name}"></td>
     <td th:text="${l.user.name}"></td>
-    <td>
+    <td th:text="${l.loanDate}"></td> <td th:text="${l.periodDays}"></td> <td>
         <form th:action="@{/loans/return}" method="post">
             <input type="hidden" name="loanId" th:value="${l.id}">
             <button type="submit">返却</button>
@@ -30,31 +28,28 @@
 </table>
 
 <h3>貸出登録</h3>
-
 <form th:action="@{/loans}" method="post">
-    
     資産：
     <select name="assetId">
-        <option th:each="a : ${assets}"
-                th:value="${a.id}"
-                th:text="${a.name}">
-        </option>
+        <option th:each="a : ${assets}" th:value="${a.id}" th:text="${a.name}"></option>
     </select>
 
     ユーザ：
     <select name="userId">
-        <option th:each="u : ${users}"
-                th:value="${u.id}"
-                th:text="${u.name}">
-        </option>
+        <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.name}"></option>
     </select>
+
+    貸出日：
+    <input type="date" name="loanDate" required th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+
+    期間：
+    <input type="number" name="periodDays" min="1" value="7" style="width: 50px;" required> 日
 
     <button type="submit">貸出</button>
 </form>
 
 <p style="color:green;" th:text="${message}"></p>
 <p style="color:red;" th:text="${error}"></p>
-
 
 </body>
 </html>
