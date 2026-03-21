@@ -19,15 +19,9 @@ public class AssetService {
     private LoanRepository loanRepo;
 
     public List<Asset> findAll() {
-
-        List<Asset> assets = assetRepo.findAll();
-
-        for (Asset a : assets) {
-            loanRepo.findByAssetId(a.getId())
-            //    .ifPresent(l -> a.setLoanUserName(l.getUser().getName()));
-        }
-
-        return assets;
+        // 1. リポジトリから全件取得
+        // 2. そのまま返す（名前のセットは不要になったため）
+        return assetRepo.findAll();
     }
 
     public void save(String name) {
