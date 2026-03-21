@@ -16,7 +16,8 @@ public class LoginService {
         // 現在のロジックではパスワードチェックがないため、
         // ユーザーが存在すればOKとするか、パスワード比較ロジックをここに追加します。
         // return userRepo.findByName(name).isPresent();
-        return true; // 全員
+        // return true; // 全員
+        return "admin".equals(name); // ユーザー名が "admin" ならパスワードに関係なく通す
     }
 
     // 既存のメソッド（必要であれば残しておく）
