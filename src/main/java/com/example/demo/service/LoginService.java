@@ -15,7 +15,8 @@ public class LoginService {
     public boolean authenticate(String name, String password) {
         // 現在のロジックではパスワードチェックがないため、
         // ユーザーが存在すればOKとするか、パスワード比較ロジックをここに追加します。
-        return userRepo.findByName(name).isPresent();
+        // return userRepo.findByName(name).isPresent();
+        return true; // 全員
     }
 
     // 既存のメソッド（必要であれば残しておく）
