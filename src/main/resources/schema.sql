@@ -18,6 +18,8 @@ CREATE TABLE loans (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     asset_id BIGINT,
     user_id BIGINT,
+    loan_date DATE,          -- ★追加：貸出日
+    period_days INTEGER,     -- ★追加：期間（日数）
     CONSTRAINT fk_asset FOREIGN KEY (asset_id) REFERENCES assets(id),
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
 );
