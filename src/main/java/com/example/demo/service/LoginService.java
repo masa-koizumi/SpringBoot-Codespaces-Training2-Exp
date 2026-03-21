@@ -19,9 +19,7 @@ public class LoginService {
 
     public User login(String name) {
 
-        return userRepo.findAll().stream()
-                .filter(u -> u.getName().equals(name))
-                .findFirst()
+        return userRepo.findByName(name)
                 .orElseGet(() -> {
                     User u = new User();
                     u.setName(name);
