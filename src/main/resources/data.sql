@@ -1,2 +1,6 @@
-INSERT INTO users(id, name) VALUES (100, 'Alice');
-INSERT INTO users(id, name) VALUES (101, 'Bob');
+INSERT INTO users (name) VALUES ('Alice');
+INSERT INTO users (name) VALUES ('Bob');
+
+INSERT INTO assets (name, status) VALUES ('Laptop', 'AVAILABLE');
+INSERT INTO assets (name, status) VALUES ('iPad', 'AVAILABLE');
+INSERT INTO assets (name, status) VALUES ('Monitor', 'AVAILABLE');
