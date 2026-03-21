@@ -34,6 +34,8 @@ public class LoginController {
         // セッション破棄
         session.invalidate();
 
+        ra.addFlashAttribute("message", "ログアウトしました");
+        
         // ログイン画面へ
         return "redirect:/";
     }
