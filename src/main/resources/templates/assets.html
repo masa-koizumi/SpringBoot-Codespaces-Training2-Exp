@@ -1,37 +1,52 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>資産一覧</title>
+</head>
 <body>
 
 <h2>資産一覧</h2>
 
 <a th:href="@{/menu}">← メニューへ戻る</a>
 
-<table border="1">
-<tr>
-    <th>ID</th>
-    <th>名前</th>
-    <th>状態</th>
-    <th>利用ユーザ</th>
-</tr>
+<table border="1" style="border-collapse: collapse; margin-top: 10px;">
+    <tr style="background-color: #f2f2f2;">
+        <th>ID</th>
+        <th>名前</th>
+        <th>状態</th>
+        <th>利用ユーザ</th>
+        <th>返却期限</th> </tr>
 
-<tr th:each="a : ${assets}">
-    <td th:text="${a.id}"></td>
-    <td th:text="${a.name}"></td>
-    <td th:text="${a.status}"></td>
+    <tr th:each="a : ${assets}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.name}"></td>
+        
+        <td th:text="${a.status == 'LOANED' ? '貸出中' : '利用可能'}"
+            th:style="${a.status == 'LOANED' ? 'color: red;' : 'color: green;'}">
+        </td>
 
-    <!-- 貸出中のみユーザ表示 -->
-    <td>
-        <span th:if="${a.status == 'LOANED'}"
-              th:text="${a.loanUserName}"></span>
-    </td>
-</tr>
+        <td>
+            <span th:if="${a.status == 'LOANED'}" th:text="${a.loanUserName}"></span>
+            <span th:if="${a.status != 'LOANED'}">-</span>
+        </td>
 
+        <td>
+            <span th:if="${a.status == 'LOANED' && a.returnDeadline != null}">
+                <span th:text="${a.returnDeadline}"
+                      th:style="${a.returnDeadline.isBefore(#temporals.createNow()) ? 'color: red; font-weight: bold;' : ''}">
+                </span>
+            </span>
+            <span th:if="${a.status != 'LOANED'}">-</span>
+        </td>
+    </tr>
 </table>
 
-<h3>新規登録</h3>
+<hr>
 
+<h3>資産の新規登録</h3>
 <form th:action="@{/assets}" method="post">
-    名前: <input type="text" name="name" required>
+    名前: <input type="text" name="name" required placeholder="例：MacBook Pro">
     <button type="submit">登録</button>
 </form>
 
