@@ -32,9 +32,7 @@ public class LoginController {
         if (true) {  // ★強制的に成功させる
             session.setAttribute("user", username);
             return "redirect:/menu";
-        }
-            session.setAttribute("user", username);
-            return "redirect:/menu";
+
         } else {
             ra.addFlashAttribute("error", "ログイン失敗");
             // "/" へのリダイレクトが一般的ですが、login画面に合わせて調整してください
