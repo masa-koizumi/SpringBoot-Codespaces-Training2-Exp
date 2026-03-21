@@ -5,21 +5,49 @@ import java.util.Map;
 
 import com.example.demo.service.LoanService;
 
-@RestController
-@RequestMapping("/loans")
+@Controller
 public class LoanController {
 
-    private final LoanService service;
+    @Autowired
+    private LoanService loanService;
 
-    public LoanController(LoanService service) {
-        this.service = service;
+    @Autowired
+    private LoanRepository loanRepo;
+
+    @Autowired
+    private AssetRepository assetRepo;
+
+    @Autowired
+    private UserRepository userRepo;
+
+    @GetMapping("/loans")
+    public String list(Model model) {
+
+        model.addAttribute("loans", loanRepo.findAll());
+        model.addAttribute("assets", assetRepo.findAll());
+        model.addAttribute("users", userRepo.findAll());
+
+        return "loans";
     }
 
-    @PostMapping
-    public void borrow(@RequestBody Map<String, Long> req) {
-        Long assetId = req.get("assetId");
-        Long userId = req.get("userId");
+    @PostMapping("/loans")
+    public String loan(@RequestParam Long assetId,
+                       @RequestParam Long userId,
+                       RedirectAttributes redirectAttributes) {
 
-        service.borrow(assetId, userId);
+        try {
+            loanService.loan(assetId, userId);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/loans";
+    }
+
+    @PostMapping("/loans/return")
+    public String returnAsset(@RequestParam Long loanId) {
+
+        loanService.returnAsset(loanId);
+        return "redirect:/loans";
     }
 }
