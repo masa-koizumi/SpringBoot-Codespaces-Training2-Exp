@@ -16,19 +16,17 @@ public class LoginInterceptor implements HandlerInterceptor {
                              Object handler) throws Exception {
 
         HttpSession session = request.getSession();
-        Object user = session.getAttribute("user");
 
         String uri = request.getRequestURI();
 
-        // デバッグ用（必要ならON）
-        // System.out.println("URI: " + uri);
-
         // ログイン不要URL
-        if (uri.equals("/") || uri.equals("/login")) {
+        if (uri.equals("/") || uri.equals("/login") || uri.startsWith("/h2-console")) {
             return true;
         }
 
-        // 未ログインならログイン画面へ
+        // セッションチェック
+        Object user = session.getAttribute("user");
+
         if (user == null) {
             response.sendRedirect("/");
             return false;
