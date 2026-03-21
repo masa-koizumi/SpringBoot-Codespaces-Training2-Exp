@@ -40,7 +40,7 @@ public class LoginController {
         }
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes ra) { // ← ra を追加！
         // セッション破棄
         session.invalidate();
