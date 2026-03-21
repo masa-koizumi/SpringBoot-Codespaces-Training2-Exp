@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h2>ユーザ管理</h2>
+
+<a th:href="@{/menu}">← メニューへ戻る</a>
+
+<!-- メッセージ -->
+<p style="color:green;" th:text="${message}"></p>
+<p style="color:red;" th:text="${error}"></p>
+
+<h3>ユーザ一覧</h3>
+
+<table border="1">
+<tr>
+    <th>ID</th>
+    <th>名前</th>
+    <th>操作</th>
+</tr>
+
+<tr th:each="u : ${users}">
+    <td th:text="${u.id}"></td>
+    <td th:text="${u.name}"></td>
+    <td>
+        <form th:action="@{/users/delete}" method="post">
+            <input type="hidden" name="id" th:value="${u.id}">
+            <button type="submit">削除</button>
+        </form>
+    </td>
+</tr>
+
+</table>
+
+<h3>ユーザ登録</h3>
+
+<form th:action="@{/users}" method="post">
+    名前: <input type="text" name="name" required>
+    <button type="submit">登録</button>
+</form>
+
+</body>
+</html>
