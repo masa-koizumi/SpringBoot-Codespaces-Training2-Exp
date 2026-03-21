@@ -28,7 +28,11 @@ public class LoginController {
         HttpSession session,
         RedirectAttributes ra) {
 
-        if (loginService.authenticate(username, password)) {
+        // if (loginService.authenticate(username, password)) {
+        if (true) {  // ★強制的に成功させる
+            session.setAttribute("user", username);
+            return "redirect:/menu";
+        }
             session.setAttribute("user", username);
             return "redirect:/menu";
         } else {
