@@ -2,23 +2,30 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
+@Table(name = "loans")
 public class Loan {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long assetId;
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "asset_id")
+    private Asset asset;
 
-    // getter / setter
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // getter/setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public Long getAssetId() { return assetId; }
-    public void setAssetId(Long assetId) { this.assetId = assetId; }
+    public Asset getAsset() { return asset; }
+    public void setAsset(Asset asset) { this.asset = asset; }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }
