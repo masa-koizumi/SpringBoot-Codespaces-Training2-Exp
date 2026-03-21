@@ -8,7 +8,11 @@
 <h2>ログイン</h2>
 
 <form th:action="@{/login}" method="post">
-    ユーザ名: <input type="text" name="name" required>
+    <div>
+        ユーザ名: <input type="text" name="username" required>
+    </div>
+    <div>
+        パスワード: <input type="password" name="password" required> </div>
     <button type="submit">ログイン</button>
 </form>
 
