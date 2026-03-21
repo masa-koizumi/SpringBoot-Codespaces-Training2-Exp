@@ -1,35 +1,27 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.example.demo.entity.Asset; // これが重要
-import com.example.demo.repository.AssetRepository; // これが重要
+import org.springframework.web.bind.annotation.*;
+
+import com.example.demo.service.AssetService;
 
 @Controller
-@RequestMapping("/assets")
 public class AssetController {
 
-    private final AssetRepository repo;
+    @Autowired
+    private AssetService service;
 
-    public AssetController(AssetRepository repo) {
-        this.repo = repo;
-    }
-
-    @GetMapping
+    @GetMapping("/assets")
     public String list(Model model) {
-        model.addAttribute("assets", repo.findAll());
+        model.addAttribute("assets", service.findAll());
         return "assets";
     }
 
-    @PostMapping
-    public String create(String name) {
-        Asset a = new Asset();
-        a.setName(name);
-        a.setStatus("AVAILABLE");
-        repo.save(a);
+    @PostMapping("/assets")
+    public String create(@RequestParam String name) {
+        service.save(name);
         return "redirect:/assets";
     }
 }
