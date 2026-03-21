@@ -1,28 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
 
 <h2>資産一覧</h2>
+
+<a th:href="@{/menu}">← メニューへ戻る</a>
 
 <table border="1">
 <tr>
     <th>ID</th>
     <th>名前</th>
     <th>状態</th>
+    <th>利用ユーザ</th>
 </tr>
 
 <tr th:each="a : ${assets}">
     <td th:text="${a.id}"></td>
     <td th:text="${a.name}"></td>
     <td th:text="${a.status}"></td>
+
+    <!-- 貸出中のみユーザ表示 -->
+    <td>
+        <span th:if="${a.status == 'LOANED'}"
+              th:text="${a.loanUserName}"></span>
+    </td>
 </tr>
 
 </table>
 
 <h3>新規登録</h3>
 
-<form action="/assets" method="post">
-    名前: <input type="text" name="name">
+<form th:action="@{/assets}" method="post">
+    名前: <input type="text" name="name" required>
     <button type="submit">登録</button>
 </form>
 
