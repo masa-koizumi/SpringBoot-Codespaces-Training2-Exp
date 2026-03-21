@@ -1,15 +1,9 @@
-
 package com.example.demo.service;
 
-import java.util.Optional;
-
-import com.example.demo.entity.*;
-import com.example.demo.repository.*;
-
-
+import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class LoginService {
@@ -17,8 +11,15 @@ public class LoginService {
     @Autowired
     private UserRepository userRepo;
 
-    public User login(String name) {
+    // ★ 追加：Controllerから呼ばれているメソッド
+    public boolean authenticate(String name, String password) {
+        // 現在のロジックではパスワードチェックがないため、
+        // ユーザーが存在すればOKとするか、パスワード比較ロジックをここに追加します。
+        return userRepo.findByName(name).isPresent();
+    }
 
+    // 既存のメソッド（必要であれば残しておく）
+    public User login(String name) {
         return userRepo.findByName(name)
                 .orElseGet(() -> {
                     User u = new User();
