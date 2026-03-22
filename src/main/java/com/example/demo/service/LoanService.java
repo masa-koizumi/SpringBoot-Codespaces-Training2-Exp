@@ -72,4 +72,4 @@ public class LoanService {
         assetRepo.save(asset);
     }
 
-｝
+}
