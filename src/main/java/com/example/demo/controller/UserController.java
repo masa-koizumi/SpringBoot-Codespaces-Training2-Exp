@@ -86,27 +86,26 @@ public class UserController {
     /**
      * ★ 追加：パスワード設定画面を表示
      */
-    @GetMapping("/user/setup-password")
-    public String showSetupForm() {
-        return "user/setup-password"; // templates/user/setup-password.html を指す
-    }
+// パスワード暗号化（本来はBCrypt等を使いますが、まずは簡易実装で進めます）
+@GetMapping("/users/setup-password")
+public String showPasswordForm(@RequestParam Long userId, Model model) {
+    com.example.demo.entity.User user = userRepo.findById(userId)
+            .orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
+    model.addAttribute("user", user);
+    return "user/setup-password"; // templates/user/setup-password.html を指す
+}
 
-    /**
-     * ★ 追加：パスワードを保存実行
-     */
-    @PostMapping("/user/setup-password")
-    public String setupPassword(@RequestParam String name, 
-                                @RequestParam String password, 
-                                Model model) {
-        
-        // LoginServiceに作成したロジックを呼び出す
-        boolean success = loginService.setupPasswordIfEmpty(name, password);
-        
-        if (success) {
-            model.addAttribute("message", "パスワードを設定しました。ログイン画面から試してください。");
-        } else {
-            model.addAttribute("error", "設定できませんでした。（名前が違うか、すでにパスワードが設定済みです）");
-        }
-        return "user/setup-password";
-    }
+@PostMapping("/users/setup-password")
+public String setupPassword(@RequestParam Long userId, @RequestParam String password, RedirectAttributes ra) {
+    com.example.demo.entity.User user = userRepo.findById(userId)
+            .orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
+    
+    // パスワードをセット（本来は暗号化を推奨）
+    user.setPassword(password);
+    userRepo.save(user);
+    
+    ra.addFlashAttribute("message", user.getName() + "さんのパスワードを更新しました");
+    return "redirect:/users";
+}
+    
 }
