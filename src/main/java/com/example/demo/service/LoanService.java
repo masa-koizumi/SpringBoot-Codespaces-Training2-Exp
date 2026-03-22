@@ -54,18 +54,23 @@ public class LoanService {
         assetRepo.save(asset);
     }
 
-    /**
-     * 返却処理
+/**
+     * 返却処理（資産IDを受け取って返却する）
      */
     @Transactional
-    public void returnAsset(Long loanId) {
-        Loan loan = loanRepo.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loanが存在しません"));
+    public void returnAsset(Long assetId) { // 引数名を意味通り assetId に
+        // 1. その資産自体が存在するか確認
+        Asset asset = assetRepo.findById(assetId)
+                .orElseThrow(() -> new RuntimeException("資産が存在しません"));
 
-        Asset asset = loan.getAsset();
+        // 2. その資産に紐づいている「貸出情報」を探す
+        // ※ asset_id を元に Loan テーブルから検索するメソッドを Repo に追加する必要があります
+        Loan loan = loanRepo.findByAssetId(assetId)
+                .orElseThrow(() -> new RuntimeException("この資産は現在貸し出されていません"));
+
+        // 3. 状態を戻して貸出情報を削除
         asset.setStatus("AVAILABLE");
-
         loanRepo.delete(loan);
         assetRepo.save(asset);
     }
-}
+｝
