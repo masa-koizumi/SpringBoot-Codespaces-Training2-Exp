@@ -83,7 +83,7 @@ public class LoanController {
             ra.addFlashAttribute("error", e.getMessage());
         }
 
-        return "redirect:/loans";
+        return "redirect:/assets";
     }
     /**
      * 返却処理
