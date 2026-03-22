@@ -2,6 +2,7 @@
 INSERT INTO users (name, password) VALUES ('Alice', 'a123');
 INSERT INTO users (name, password) VALUES ('Bob', 'b456');
 INSERT INTO users (name, password) VALUES ('Charlie', 'c789');
+INSERT INTO users (name, password) VALUES ('Taro', '');
 
 -- 2. 資産データの登録
 INSERT INTO assets (name, status) VALUES ('MacBook Pro', 'LOANED');
