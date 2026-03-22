@@ -24,4 +24,21 @@ public class AssetController {
         service.save(name);
         return "redirect:/assets";
     }
+
+    // AssetController.java
+
+    @GetMapping("/assets/new")
+    public String showCreateForm() {
+        return "asset-new"; // templates/asset-new.html を指す
+    }
+
+    @PostMapping("/assets/new")
+    public String createAsset(@RequestParam String name) {
+        Asset asset = new Asset();
+        asset.setName(name);
+        asset.setStatus("AVAILABLE"); // 初期状態は「利用可能」
+        assetRepo.save(asset);
+        return "redirect:/assets"; // 登録後は一覧へ戻る
+    }
+    
 }
