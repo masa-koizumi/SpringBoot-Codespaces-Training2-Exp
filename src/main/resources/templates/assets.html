@@ -4,11 +4,38 @@
     <meta charset="UTF-8">
     <title>資産一覧 | 備品管理システム</title>
     <style>
-        .overdue { color: red; font-weight: bold; } /* 期限切れ用スタイル */
-        .available { color: green; }               /* 利用可能用スタイル */
+        /* 既存のスタイル */
+        .overdue { color: red; font-weight: bold; }
+        .available { color: green; }
         table { border-collapse: collapse; width: 100%; margin-top: 20px; }
         th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
         th { background-color: #f8f9fa; }
+
+        /* 追加：管理者メニューとボタンのスタイル */
+        .admin-section {
+            background-color: #fdf2e9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e67e22;
+            margin-top: 20px;
+        }
+        .button-group { display: flex; gap: 15px; align-items: center; }
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-register { background-color: #e67e22; } /* オレンジ */
+        .btn-user-mgmt { background-color: #34495e; } /* 紺 */
+        .btn-return { background-color: #e74c3c; font-size: 0.9em; } /* 赤 */
+        .btn-loan { background-color: #27ae60; font-size: 0.9em; }   /* 緑 */
+        
+        .msg-user { color: #2980b9; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -24,7 +51,7 @@
                 <th>状態</th>
                 <th>借用者</th>
                 <th>返却期限</th>
-            </tr>
+                <th>操作</th> </tr>
         </thead>
         <tbody>
             <tr th:each="a : ${assets}">
@@ -47,13 +74,29 @@
                         <span th:text="${a.returnDeadline}"
                             th:style="${a.returnDeadline.isBefore(T(java.time.LocalDate).now()) ? 'color: red; font-weight: bold;' : ''}">
                         </span>
-                        
-                        <small th:if="${a.returnDeadline != null && a.returnDeadline.isBefore(T(java.time.LocalDate).now())}"
+                        <small th:if="${a.returnDeadline.isBefore(T(java.time.LocalDate).now())}"
                                style="display:block; font-size: 0.8em; color: red; font-weight: bold;">
-                                ※期限を過ぎています！
+                                ※期限超過
                         </small>
                     </div>
                     <span th:if="${a.status != 'LOANED'}">-</span>
+                </td>
+
+                <td>
+                    <div th:if="${a.status != 'LOANED'}">
+                        <a th:href="@{/loans/new(assetId=${a.id})}" class="btn btn-loan">貸出</a>
+                    </div>
+
+                    <div th:if="${a.status == 'LOANED'}">
+                        <form th:if="${session.user.role == 'ADMIN' || session.user.name == a.loanUserName}"
+                              th:action="@{/loans/return}" method="post">
+                            <input type="hidden" name="assetId" th:value="${a.id}">
+                            <button type="submit" class="btn btn-return">返却</button>
+                        </form>
+                        
+                        <span th:if="${session.user.role == 'USER' && session.user.name != a.loanUserName}" 
+                              style="color: #999; font-size: 0.85em;">操作不可</span>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -61,13 +104,16 @@
 
     <hr>
 
-    <div th:if="${session.user != null && session.user.role == 'ADMIN'}">
-        <a th:href="@{/assets/new}" class="btn">新しい資産を登録する</a>
-        <a th:href="@{/users}" class="btn">ユーザー管理</a>
+    <div th:if="${session.user != null && session.user.role == 'ADMIN'}" class="admin-section">
+        <p><strong>管理者ツール：</strong></p>
+        <div class="button-group">
+            <a th:href="@{/assets/new}" class="btn btn-register">新しい資産を登録する</a>
+            <a th:href="@{/users}" class="btn btn-user-mgmt">ユーザー管理</a>
+        </div>
     </div>
 
-    <p th:if="${session.user != null && session.user.role == 'USER'}">
-        こんにちは、[[${session.user.name}]]さん。貸出中の資産を確認してください。
+    <p th:if="${session.user != null && session.user.role == 'USER'}" class="msg-user">
+        こんにちは、[[${session.user.name}]]さん。自分の借りている資産は「返却」が可能です。
     </p>
 
 </body>
