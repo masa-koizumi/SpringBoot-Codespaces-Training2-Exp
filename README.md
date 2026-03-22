@@ -1,4 +1,4 @@
-# SpringBoot Codespaces Training1
+# SpringBoot Codespaces Training2
 # 資産管理システム（研修用）
 
 ## 📌 概要
