@@ -6,6 +6,10 @@
 
 <a th:href="@{/menu}">← メニューへ戻る</a>
 
+<a th:href="@{/users/setup-password(userId=${u.id})}" style="font-size: 0.8em; color: #e67e22;">
+    [鍵パスワード設定]
+</a>
+    
 <!-- メッセージ -->
 <p style="color:green;" th:text="${message}"></p>
 <p style="color:red;" th:text="${error}"></p>
