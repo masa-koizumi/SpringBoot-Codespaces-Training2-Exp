@@ -6,10 +6,6 @@
 
 <a th:href="@{/menu}">← メニューへ戻る</a>
 
-<a th:href="@{/users/setup-password(userId=${u.id})}" style="font-size: 0.8em; color: #e67e22;">
-    [鍵パスワード設定]
-</a>
-    
 <!-- メッセージ -->
 <p style="color:green;" th:text="${message}"></p>
 <p style="color:red;" th:text="${error}"></p>
@@ -20,13 +16,20 @@
 <tr>
     <th>ID</th>
     <th>名前</th>
+    <th>ロール</th>
     <th>操作</th>
 </tr>
 
 <tr th:each="u : ${users}">
     <td th:text="${u.id}"></td>
     <td th:text="${u.name}"></td>
+    <td th:text="${u.role}"></td>
     <td>
+        <a th:href="@{/users/setup-password(userId=${u.id})}" style="font-size: 0.8em; color: #e67e22;">
+    [鍵パスワード設定]
+    </a>
+    
+
         <form th:action="@{/users/delete}" method="post">
             <input type="hidden" name="id" th:value="${u.id}">
             <button type="submit">削除</button>
