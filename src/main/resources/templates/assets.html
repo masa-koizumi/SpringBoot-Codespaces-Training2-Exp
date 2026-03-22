@@ -48,7 +48,7 @@
                             th:style="${a.returnDeadline.isBefore(T(java.time.LocalDate).now()) ? 'color: red; font-weight: bold;' : ''}">
                         </span>
                         
-                        <small th:if="${a.assetReturnDeadline != null && a.assetReturnDeadline.isBefore(T(java.time.LocalDate).now())}"
+                        <small th:if="${a.returnDeadline != null && a.returnDeadline.isBefore(T(java.time.LocalDate).now())}"
                                style="display:block; font-size: 0.8em; color: red; font-weight: bold;">
                                 ※期限を過ぎています！
                         </small>
