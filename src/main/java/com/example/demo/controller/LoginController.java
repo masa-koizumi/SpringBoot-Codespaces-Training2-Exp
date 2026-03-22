@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import com.example.demo.service.LoginService;
+import com.example.demo.entity.User;
 
 @Controller
 public class LoginController {
