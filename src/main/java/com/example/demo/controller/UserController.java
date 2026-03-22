@@ -10,6 +10,9 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.LoanRepository;
 
+// --- 追加する import ---
+import com.example.demo.service.LoginService;
+
 @Controller
 public class UserController {
 
@@ -19,6 +22,12 @@ public class UserController {
     @Autowired
     private LoanRepository loanRepo;
 
+
+
+    // ★ 追加：LoginServiceを注入する
+    @Autowired
+    private LoginService loginService;
+    
     /**
      * ユーザ一覧
      */
@@ -68,5 +77,36 @@ public class UserController {
         ra.addFlashAttribute("message", "ユーザを削除しました");
 
         return "redirect:/users";
+    }
+
+
+
+    // ... 既存の list, create, delete メソッド ...
+
+    /**
+     * ★ 追加：パスワード設定画面を表示
+     */
+    @GetMapping("/user/setup-password")
+    public String showSetupForm() {
+        return "user/setup-password"; // templates/user/setup-password.html を指す
+    }
+
+    /**
+     * ★ 追加：パスワードを保存実行
+     */
+    @PostMapping("/user/setup-password")
+    public String setupPassword(@RequestParam String name, 
+                                @RequestParam String password, 
+                                Model model) {
+        
+        // LoginServiceに作成したロジックを呼び出す
+        boolean success = loginService.setupPasswordIfEmpty(name, password);
+        
+        if (success) {
+            model.addAttribute("message", "パスワードを設定しました。ログイン画面から試してください。");
+        } else {
+            model.addAttribute("error", "設定できませんでした。（名前が違うか、すでにパスワードが設定済みです）");
+        }
+        return "user/setup-password";
     }
 }
