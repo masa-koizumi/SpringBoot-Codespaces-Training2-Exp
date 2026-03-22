@@ -18,6 +18,9 @@ public class AssetController {
     @Autowired
     private AssetService service;
 
+    @Autowired
+    private AssetRepository assetRepo; // ★ ここが assetRepository になっていませんか？
+
     @GetMapping("/assets")
     public String list(Model model) {
         model.addAttribute("assets", service.findAll());
