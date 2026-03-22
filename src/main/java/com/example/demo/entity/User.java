@@ -24,4 +24,18 @@ public class User {
     // ★ password の getter/setter を追加
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    // User.java
+
+    @Column(name = "role")
+    private String role; // "ADMIN" または "USER" が入る想定
+
+    // Getter と Setter
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
