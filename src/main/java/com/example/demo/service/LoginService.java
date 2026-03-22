@@ -42,4 +42,20 @@ public class LoginService {
                     return userRepo.save(u);
                 });
     }
+
+    // パスワードが未設定（null または 空）の場合のみ、新しいパスワードを保存する
+    public boolean setupPasswordIfEmpty(String name, String newPassword) {
+        Optional<User> userOpt = userRepo.findByName(name);
+        
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            // パスワードが設定されていない場合のみ保存
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                user.setPassword(newPassword);
+                userRepo.save(user);
+                return true; // 成功
+            }
+        }
+        return false; // ユーザーがいないか、すでにパスワードがある場合
+    }
 }
