@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>貸出登録 | 備品管理システム</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; line-height: 1.6; }
+        .container { max-width: 500px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        .btn-submit { background-color: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; }
+        .btn-submit:hover { background-color: #219150; }
+        .back-link { display: block; margin-top: 15px; text-align: center; color: #666; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>貸出の登録</h2>
+    <p>資産名: <strong th:text="${asset.name}">資産名</strong></p>
+
+    <form th:action="@{/loans}" method="post">
+        <input type="hidden" name="assetId" th:value="${asset.id}">
+
+        <div class="form-group">
+            <label>借りる人：</label>
+            <select name="userId" required>
+                <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.name}"
+                        th:selected="${session.user != null && session.user.id == u.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>貸出日：</label>
+            <input type="date" name="loanDate" required 
+                   th:value="${#calendars.format(#calendars.createNow(), 'yyyy-MM-dd')}">
+        </div>
+
+        <div class="form-group">
+            <label>貸出期間（日）：</label>
+            <input type="number" name="periodDays" min="1" value="7" required>
+        </div>
+
+        <button type="submit" class="btn-submit">この内容で貸し出す</button>
+    </form>
+
+    <a th:href="@{/assets}" class="back-link">← キャンセルして戻る</a>
+</div>
+
+</body>
+</html>

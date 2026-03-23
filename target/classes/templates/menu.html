@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>メニュー</title>
+    <style>
+        .admin-box { border: 2px solid #ff9800; padding: 10px; margin-bottom: 20px; background-color: #fff3e0; }
+        .user-box { border: 2px solid #2196f3; padding: 10px; }
+        ul { list-style: none; padding-left: 0; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<h2>メインメニュー</h2>
+
+<p>
+    ログインユーザ：
+    <strong th:text="${session.user != null ? session.user.name : 'ゲスト'}"></strong> さん 
+    （権限：<span th:text="${session.user != null ? session.user.role : 'なし'}"></span>）
+</p>
+
+<div class="admin-box" th:if="${session.user != null && session.user.role == 'ADMIN'}">
+    <h3>【管理者専用】システム管理</h3>
+    <ul>
+        <li><a th:href="@{/users}">ユーザ管理（登録・削除）</a></li>
+        <li><a th:href="@{/assets/new}">新規資産の登録</a></li> </ul>
+</div>
+
+<div class="user-box">
+    <h3>資産管理</h3>
+    <ul>
+        <li><a th:href="@{/assets}">資産一覧（貸出・返却）</a></li>
+    </ul>
+</div>
+
+<hr>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">ログアウト</button>
+</form>
+
+</body>
+</html>
