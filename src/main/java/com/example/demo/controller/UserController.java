@@ -51,6 +51,7 @@ public class UserController {
 
         User u = new User();
         u.setName(name);
+        u.setRole("User"); // ★ デフォルトロールを設定
 
         userRepo.save(u);
 
@@ -107,5 +108,19 @@ public String setupPassword(@RequestParam Long userId, @RequestParam String pass
     ra.addFlashAttribute("message", user.getName() + "さんのパスワードを更新しました");
     return "redirect:/users";
 }
-    
+
+    /**
+     * ★ 追加：ロールをAdminに変更
+     */
+    @PostMapping("/users/update-role")
+    public String updateRole(@RequestParam Long id, RedirectAttributes ra) {
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("ユーザーが見つかりません"));
+        
+        user.setRole("Admin");
+        userRepo.save(user);
+        
+        ra.addFlashAttribute("message", user.getName() + "さんの権限をAdminに変更しました");
+        return "redirect:/users";
+    }
 }

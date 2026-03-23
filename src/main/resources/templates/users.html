@@ -34,6 +34,12 @@
             <input type="hidden" name="id" th:value="${u.id}">
             <button type="submit">削除</button>
         </form>
+
+        <!-- ★ ロールが 'User' の場合のみ、Adminに変更するボタンを表示 -->
+        <form th:if="${u.role == 'User'}" th:action="@{/users/update-role}" method="post" style="display: inline;">
+            <input type="hidden" name="id" th:value="${u.id}">
+            <button type="submit">Adminに変更</button>
+        </form>
     </td>
 </tr>
 
