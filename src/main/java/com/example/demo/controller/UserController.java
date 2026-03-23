@@ -86,8 +86,12 @@ public class UserController {
      * パスワード設定画面を表示
      */
     @GetMapping("/user/setup-password")
-    public String showSetupPasswordForm(Model model) {
+    public String showSetupPasswordForm(@RequestParam(required = false) Long userId, Model model) {
         model.addAttribute("users", userRepo.findAll());
+        if (userId != null) {
+            User targetUser = userRepo.findById(userId).orElse(null);
+            model.addAttribute("targetUser", targetUser);
+        }
         return "user/setup-password";
     }
 

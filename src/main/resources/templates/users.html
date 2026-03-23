@@ -28,7 +28,7 @@
     <td th:text="${u.role}"></td>
     <td>
         <!-- パスワード設定画面へのボタン -->
-        <button th:onclick="|location.href='@{/users/setup-password(userId=${u.id})}'|">パスワード設定</button>
+        <button th:onclick="|location.href='@{/user/setup-password(userId=${u.id})}'|">パスワード設定</button>
 
         <form th:action="@{/users/delete}" method="post">
             <input type="hidden" name="id" th:value="${u.id}">
