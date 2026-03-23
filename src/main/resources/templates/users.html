@@ -24,7 +24,7 @@
 <tr th:each="u : ${users}">
     <td th:text="${u.id}"></td>
     <td th:text="${u.name}"></td>
-    <td th:text="${u.password}" style="color: #e74c3c;"></td> <!-- パスワードを表示 -->
+    <td>********</td> <!-- セキュリティのため一覧では非表示 -->
     <td th:text="${u.role}"></td>
     <td>
         <!-- パスワード設定画面へのボタン -->

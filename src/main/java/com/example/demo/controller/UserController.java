@@ -10,9 +10,6 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.LoanRepository;
 
-// --- 追加する import ---
-import com.example.demo.service.LoginService;
-
 @Controller
 public class UserController {
 
@@ -22,11 +19,6 @@ public class UserController {
     @Autowired
     private LoanRepository loanRepo;
 
-
-
-    // ★ 追加：LoginServiceを注入する
-    @Autowired
-    private LoginService loginService;
     
     /**
      * ユーザ一覧
